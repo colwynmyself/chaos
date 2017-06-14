@@ -1,0 +1,33 @@
+{
+    "rules": {
+        "indent": [
+            2,
+            4
+        ],
+        "semi": [
+            2,
+            "never"
+        ],
+        "comma-dangle": [
+            2,
+            "always-multiline"
+        ],
+        "no-console": "off",
+        "prefer-arrow-callback": "warn",
+        "arrow-parens": "off",
+        "import/no-dynamic-require": "off",
+        "max-len": [1, 160],
+        "no-underscore-dangle": "off"
+    },
+    "env": {
+        "es6": true,
+        "node": true
+    },
+    "ecmaFeatures": {
+        "modules": true
+    },
+    "parserOptions": {
+        "sourceType": "module"
+    },
+    "extends": "airbnb"
+}

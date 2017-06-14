@@ -1,0 +1,57 @@
+{
+	"name": "chaos",
+	"version": "0.0.1",
+	"description": "",
+	"main": "js/main.js",
+	"scripts": {
+		"test": "node __tests__/tests.js",
+		"start": "node src/server/main.js",
+		"debug": "node --debug src/server/main.js",
+		"dev": "./node_modules/.bin/webpack -dw --progress",
+		"watch": "./node_modules/.bin/webpack -dw --progress",
+		"build": "./node_modules/.bin/webpack -p --progress"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/colwynmyself/chaos.git"
+	},
+	"author": "Colwyn Fritze-Moor <colwyn.myself@gmail.com>",
+	"license": "Apache-2.0",
+	"bugs": {
+		"url": "https://github.com/colwynmyself/chaos/issues"
+	},
+	"homepage": "https://github.com/colwynmyself/chaos#readme",
+	"dependencies": {
+		"caniuse-api": "^1.5.2",
+		"chalk": "^1.1.3",
+		"connect-redis": "^3.3.0",
+		"debug": "^2.6.6",
+		"express": "^4.15.2",
+		"express-handlebars": "^3.0.0",
+		"express-session": "^1.15.3",
+		"material-ui": "^0.18.1",
+		"passport": "^0.3.2",
+		"passport-github": "^1.1.0",
+		"prop-types": "^15.5.9",
+		"react": "^15.5.4",
+		"react-dom": "^15.5.4",
+		"react-tap-event-plugin": "^2.0.1",
+		"redis": "^2.7.1",
+		"socket.io": "^2.0.1",
+		"socket.io-client": "^2.0.1",
+		"uuid": "^3.0.1"
+	},
+	"devDependencies": {
+		"babel-cli": "^6.24.1",
+		"babel-core": "6",
+		"babel-loader": "^7.0.0",
+		"babel-preset-es2015": "^6.24.1",
+		"babel-preset-react": "^6.24.1",
+		"eslint": "^3.15.0",
+		"eslint-config-airbnb": "^14.1.0",
+		"eslint-plugin-import": "^2.2.0",
+		"eslint-plugin-jsx-a11y": "^3.0.2 || ^4.0.0",
+		"eslint-plugin-react": "^6.9.0",
+		"webpack": "^2.5.1"
+	}
+}
