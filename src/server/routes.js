@@ -33,7 +33,7 @@ module.exports = (Debug, app, passport, db) => {
         if (req.user) {
             next()
         } else {
-            debug('Unauthorized access detected')
+            if (req.url !== '/') debug(`Unauthorized access detected at url: ${req.url}`)
             res.redirect('/login')
         }
     })

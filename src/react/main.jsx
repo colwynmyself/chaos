@@ -1,13 +1,12 @@
 import React from 'react'
 import { render } from 'react-dom'
-import io from 'socket.io-client'
 
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import AppBar from 'material-ui/AppBar'
 
 import UserDrawer from './components/UserDrawer.jsx'
-import { request } from './utils/network.js'
+import { request, createSocket } from './utils/network.js'
 
 injectTapEventPlugin()
 
@@ -27,12 +26,9 @@ class App extends React.Component {
             })
         }
 
-        const socket = io(window.location.pathname)
-
-        socket.on('connect', () => {
-            this.setState({ socket })
-        })
-        socket.on('disconnect', () => {
+        createSocket(window.location.pathname, sock => {
+            this.setState({ socket: sock })
+        }, () => {
             this.setState({ socket: null })
         })
 

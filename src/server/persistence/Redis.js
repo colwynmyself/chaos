@@ -37,12 +37,10 @@ module.exports = (Debug, redis) => {
         async findAll() {
             try {
                 const hashData = await client.hgetall(this.table)
-                const data = []
-
-                for (const key in hashData) {
+                const data = Object.keys(hashData).map(key => {
                     const string = hashData[key]
-                    data.push(JSON.parse(string))
-                }
+                    return JSON.parse(string)
+                })
 
                 return data
             } catch (e) {
