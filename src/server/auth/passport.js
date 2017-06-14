@@ -1,6 +1,6 @@
 const GithubStrategy = require('passport-github').Strategy
 
-module.exports = (Debug, app, passport, credentials) => {
+module.exports = (Debug, app, passport, db, credentials) => {
     const debug = Debug('auth:passport')
     debug('initializing passport authentication')
 
@@ -8,9 +8,20 @@ module.exports = (Debug, app, passport, credentials) => {
         clientID: credentials.github.clientID,
         clientSecret: credentials.github.clientSecret,
         callbackURL: 'http://localhost:3000/login/github/callback',
-    }, (accessToken, refreshToken, profile, done) => {
-        debug(profile._json)
-        return done(null, profile._json)
+    }, async (accessToken, refreshToken, profile, done) => {
+        const json = profile._json
+        const user = await db.User.create({
+            id: json.id,
+            name: json.login,
+        })
+
+        if (!user) {
+            debug('failed to create user')
+            return done('Failed to create user')
+        }
+
+        debug(`User logged in. Profile: ${user.name} (${user.id})`)
+        return done(null, user)
     }))
 
     passport.serializeUser((user, cb) => {

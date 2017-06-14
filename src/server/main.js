@@ -6,6 +6,7 @@ const socketio = require('socket.io')
 const http = require('http')
 const passport = require('passport')
 const session = require('express-session')
+const redis = require('async-redis')
 
 // Server constructors
 const Handlebars = require('express-handlebars')
@@ -17,9 +18,9 @@ const credentials = require(path.resolve(__dirname, '..', '..', 'credentials.js'
 // Wrapping debug in our own handler to append date on all statements
 const Debug = name => {
     const d = DebugPackage(`chaos:${name}`)
-    return statement => {
+    return (...args) => {
         const date = new Date()
-        d(date, statement)
+        d.apply(this, [date].concat(args))
     }
 }
 
@@ -33,7 +34,7 @@ const server = http.createServer(app)
 const io = socketio.listen(server)
 
 // Persistence layer
-const database = require(path.resolve(__dirname, 'persistence', 'Database.js'))(Debug)
+const db = require(path.resolve(__dirname, 'persistence', 'Redis.js'))(Debug, redis)
 
 // Session
 if (app.get('env') === 'production') {
@@ -55,11 +56,11 @@ app.set('views', path.resolve(__dirname, 'handlebars', 'views'))
 app.use(express.static(path.resolve(__dirname, '..', '..', 'public')))
 
 // Authentication
-require(path.resolve(__dirname, 'auth', 'passport.js'))(Debug, app, passport, credentials)
+require(path.resolve(__dirname, 'auth', 'passport.js'))(Debug, app, passport, db, credentials)
 
 // Require server files
-require(path.resolve(__dirname, 'routes.js'))(Debug, app, passport)
-require(path.resolve(__dirname, 'socket.js'))(Debug, io, database)
+require(path.resolve(__dirname, 'routes.js'))(Debug, app, passport, db)
+require(path.resolve(__dirname, 'socket.js'))(Debug, io, db)
 
 // Start application
 server.listen(port, () => {

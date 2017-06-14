@@ -1,4 +1,4 @@
-module.exports = (Debug, app, passport) => {
+module.exports = (Debug, app, passport, db) => {
     const debug = Debug('routes')
     debug('initializing routes')
 
@@ -18,8 +18,14 @@ module.exports = (Debug, app, passport) => {
 
     app.get('/login/github/callback', passport.authenticate('github', {
         failureRedirect: '/login',
+        failureFlash: true,
     }), (req, res) => {
         res.redirect('/chaos')
+    })
+
+    app.get('/logout', (req, res) => {
+        req.logout()
+        res.redirect('/')
     })
 
     // Logged in users only
@@ -27,12 +33,18 @@ module.exports = (Debug, app, passport) => {
         if (req.user) {
             next()
         } else {
+            debug('Unauthorized access detected')
             res.redirect('/login')
         }
     })
 
     app.get('/chaos', (req, res) => {
         res.render('chaos')
+    })
+
+    app.get('/users', async (req, res) => {
+        const users = await db.User.findAll()
+        res.json(users)
     })
 
     app.use(() => {
