@@ -35,7 +35,7 @@
 		"passport-github": "^1.1.0",
 		"prop-types": "^15.5.9",
 		"react": "^15.5.4",
-		"react-dom": "^15.5.4",
+		"react-dom": "^16.0.1",
 		"react-tap-event-plugin": "^2.0.1",
 		"socket.io": "^2.0.1",
 		"socket.io-client": "^2.0.1",
